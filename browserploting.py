@@ -1,3 +1,4 @@
+# %%
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
@@ -30,9 +31,10 @@ DIRECTORY = "/workspaces/pythonplay_codesp/browserploting"
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, directory=DIRECTORY, **kwargs)
+        super().__init__(*args, **kwargs)
 
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
     print(f"Serving at port {PORT}")
     webbrowser.open(f"http://localhost:{PORT}/sine_wave.pdf")
     httpd.serve_forever()
+# %%
