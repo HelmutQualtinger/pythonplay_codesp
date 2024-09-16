@@ -1,26 +1,16 @@
-import time
-import timeit
-import numpy as np
-import numba as nb
-@nb.jit(nopython=True)
-def sieve_of_eratosthenes(limit):
-    primes = np.ones(limit + 1, dtype=np.bool_)
-    primes[:2] = False  # 0 and 1 are not prime numbers
-    for p in range(2, int(limit**0.5) + 1):
-        if primes[p]:
-            primes[p*p:limit+1:p] = False
+def count_primes(limit):
+    # Create a boolean array "is_prime[0..limit]" and initialize
+    # all entries it as true.
+    is_prime = [True] * (limit + 1)
+    is_prime[0] = is_prime[1] = False
 
-    prime_count = np.count_nonzero(primes)
-    return prime_count
+    # Use the Sieve of Eratosthenes algorithm to mark non-prime numbers.
+    for i in range(2, int(limit ** 0.5) + 1):
+        if is_prime[i]:
+            for j in range(i * i, limit + 1, i):
+                is_prime[j] = False
 
-if __name__ == "__main__":
-    limit = float(input("Enter the limit: "))
-    limit = int(limit)
-    sieve_of_eratosthenes(5)
-    start_time = timeit.default_timer()
-    prime_numbers = sieve_of_eratosthenes(limit)
-    end_time = timeit.default_timer()
+    # Count the number of prime numbers.
+    count = sum(is_prime)
 
-    print(f"Execution time: {end_time - start_time} seconds")
-    print(f"Prime numbers up to {limit:,} are: {prime_numbers}")
-    
+    return count
