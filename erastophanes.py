@@ -29,5 +29,3 @@ end_time = time.time()
 
 print(f"Time taken: {end_time - start_time} seconds")
 print(f"Number of primes found: {count_primes_nb}")
-
-
